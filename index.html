@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuoteMach</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-dark-enhanced.css">
+  <link rel="stylesheet" href="custom-dropdown.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://unpkg.com/docx@8.0.0/build/index.js"></script>
+  <script src="https://unpkg.com/pizzip@3.1.0/dist/pizzip.min.js"></script>
+  <script src="https://unpkg.com/pizzip@3.1.0/dist/pizzip-utils.min.js"></script>
+  <script src="https://unpkg.com/docxtemplater@3.30.0/build/docxtemplater.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+  <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/html-to-docx/2.1.3/html-to-docx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+</head>
+
+<body>
+  <!-- 启动动画 -->
+  <div class="splash-screen">
+      <div class="splash-logo">
+          <svg class="splash-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h1 class="splash-title">QuoteMach</h1>
+          <p class="splash-subtitle">Let it flow.</p>
+      </div>
+      <button class="start-btn">开始使用</button>
+      <div class="password-container" style="display: none;">
+        <input type="password" id="password-input" class="password-input" placeholder="Password Please" />
+        <div class="password-error" style="display: none;">Nah</div>
+      </div>
+  </div>
+
+  <!-- 左侧边栏 -->
+  <div class="sidebar">
+      <div class="sidebar-header">
+          <div class="logo">
+              <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>QuoteMach</span>
+          </div>
+      </div>
+      <button class="new-package-btn">
+          <span>新建条款包</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+      </button>
+      <button class="export-packages-btn">
+          <span>导出已保存包</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+      </button>
+      <div class="packages-list" id="packages-list">
+          <!-- 动态生成的条款包列表 -->
+      </div>
+      <div class="sidebar-footer">
+          <span class="text-sm">Huatai Insurance</span>
+          <button class="theme-toggle" id="theme-toggle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-light-icon">
+                  <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 2V4M12 20V22M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 12H4M20 12H22M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-dark-icon hidden">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </button>
+      </div>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="main-content">
+      <div class="header">
+          <div class="flex items-center gap-2">
+              <button class="menu-toggle" id="menu-toggle">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+              </button>
+              <h1 class="header-title">保险条款管理</h1>
+          </div>
+          <div class="header-actions">
+              <select class="language-selector" id="language-mode">
+                  <option value="chinese">中文模式</option>
+                  <option value="english">英文模式</option>
+                  <option value="bilingual">中英双语</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="content-container">
+          <div class="upload-section" id="upload-area" style="z-index: 5;">
+              <input type="file" id="file-input" hidden accept=".xlsx,.xls,.xlsm">
+              <div class="upload-content">
+                  <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <div class="upload-text">点击或拖拽上传Excel文件</div>
+                  <div class="upload-subtext">支持.xlsx、.xls和.xlsm格式</div>
+              </div>
+          </div>
+          <div id="file-status" class="text-sm text-center mb-4"></div>
+
+          <!-- 修改搜索区域的HTML结构，确保所有元素在同一行 -->
+          <div class="search-section">
+  <select class="search-column" id="search-column">
+      <option value="0">全部内容</option>
+      <option value="1">中文名称</option>
+      <option value="2">中文措辞</option>
+      <option value="3">英文名称</option>
+      <option value="4">英文措辞</option>
+  </select>
+  <div class="search-input-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input type="text" id="search-input" class="search-input" placeholder="输入关键词搜索条款...">
+  </div>
+  <button class="btn btn-primary" id="search-btn">搜索</button>
+  <button class="btn btn-outline" id="reset-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M23 20V14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20.49 9C19.9828 7.56678 19.1209 6.2854 17.9845 5.27542C16.8482 4.26543 15.4745 3.55976 13.9917 3.22426C12.5089 2.88875 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1112 10.0083 20.7757C8.52547 20.4402 7.1518 19.7346 6.01547 18.7246C4.87913 17.7146 4.01717 16.4332 3.51 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      重置
+  </button>
+</div>
+
+          <div class="table-container">
+              <table class="results-table">
+                  <thead>
+                      <tr>
+                          <th style="width: 40px">
+                              <div class="checkbox-wrapper">
+                                  <input type="checkbox" id="select-all" class="custom-checkbox" title="全选当前页">
+                              </div>
+                          </th>
+                          <th>条款编码</th>
+                          <th>条款名称</th>
+                          <th>产品类别</th>
+                      </tr>
+                  </thead>
+                  <tbody id="results-body">
+                      <tr>
+                          <td colspan="4" style="text-align: center; padding: 32px; color: var(--muted-foreground)">
+                              请先上传文件并进行搜索
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="action-buttons">
+  <div class="action-group">
+      <button id="preview-selected-btn" class="btn btn-primary" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 12S5 4 12 4 23 12 23 12 19 20 12 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          选中条款预览
+          <span id="selected-count" class="text-xs"></span>
+      </button>
+      <button id="save-package-btn" class="btn btn-outline">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16L21 8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M17 21V13H7V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7 3V8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  保存条款包
+</button>
+      <button class="btn btn-primary" id="start-quote-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 2H9C8.44772 2 8 2.44772 8 3V5C8 5.55228 8.44772 6 9 6H15C15.5523 6 16 5.55228 16 5V3C16 2.44772 15.5523 2 15 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          开始报价
+      </button>
+  </div>
+  <div id="pagination-controls" class="pagination-controls"></div>
+</div>
+      </div>
+  </div>
+
+  <!-- 模态窗口背景 -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+
+  <!-- 预览模态窗口 -->
+  <div class="modal" id="preview-modal">
+      <div class="modal-header">
+          <h3 class="modal-title">条款预览</h3>
+          <button class="close-modal" id="close-preview">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </button>
+      </div>
+      <div class="preview-header">
+          <div>条款编码</div>
+          <div>产品类别</div>
+          <div>条款内容</div>
+          <div>赔偿限额</div>
+      </div>
+      <div class="modal-body" id="preview-items"></div>
+      <div class="modal-footer">
+  <button class="btn btn-outline" id="simple-preview-btn">仅编码+名称预览</button>
+  <button class="btn btn-primary" id="export-docx">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      导出DOCX
+  </button>
+</div>
+  </div>
+
+  <!-- 简单预览模态窗口 -->
+  <div class="modal" id="simple-preview-modal">
+      <div class="modal-header">
+          <h3 class="modal-title">条款列表预览</h3>
+          <button class="close-modal" id="close-simple-preview">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div id="simple-preview-items"></div>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-primary" id="copy-names-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5H6C5.46957 5 4.96086 5.21071 4.58579 5.58579C4.21071 5.96086 4 6.46957 4 7V19C4 19.5304 4.21071 20.0391 4.58579 20.4142C4.96086 20.7893 5.46957 21 6 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 5C8 4.46957 8.21071 3.96086 8.58579 3.58579C8.96086 3.21071 9.46957 3 10 3H18C18.5304 3 19.0391 3.21071 19.4142 3.58579C19.7893 3.96086 20 4.46957 20 5V17C20 17.5304 19.7893 18.0391 19.4142 18.4142C19.0391 18.7893 18.5304 19 18 19H10C9.46957 19 8.96086 18.7893 8.58579 18.4142C8.21071 18.0391 8 17.5304 8 17V5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              复制条款名称
+          </button>
+          <button class="btn btn-outline" id="close-simple-preview-btn">关闭</button>
+      </div>
+  </div>
+
+  <!-- 详情模态窗口 -->
+  <div class="modal" id="detail-modal">
+      <div class="modal-header">
+          <h3 class="modal-title">条款详细信息</h3>
+          <button class="close-modal" id="close-detail">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div class="detail-grid" id="detail-grid"></div>
+      </div>
+  </div>
+
+  <!-- 报价模态窗口 -->
+  <div class="modal" id="quote-panel">
+  <div class="modal-header">
+      <h3 class="modal-title">保险报价单</h3>
+      <button class="close-modal" id="close-quote-panel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+      </button>
+  </div>
+  <!-- 修改报价模态窗口的标签页部分，添加一个包装容器以便更好地控制滚动 -->
+<div class="quote-tabs">
+  <button class="quote-tab active" data-tab="basic">基本信息</button>
+  <button class="quote-tab" data-tab="fire">详细信息</button>
+</div>
+  <div class="modal-body">
+      <div class="panel-container">
+          <!-- 基础信息面板 -->
+          <div class="panel-content active" data-panel="basic">
+              <!-- 核保人信息 -->
+              <div class="form-section">
+                  <div class="quote-form">
+                      <div class="form-column">
+                          <div class="form-field">
+                              <label>核保人姓名</label>
+                              <input type="text" id="underwriter-name" placeholder="Underwriter Name">
+                          </div>
+                          <div class="form-field">
+                              <label>电子邮箱</label>
+                              <input type="email" id="underwriter-email" placeholder="underwriter@ehuatai.com">
+                          </div>
+                      </div>
+                      <div class="form-column">
+                          <div class="form-field">
+                              <label>联系电话</label>
+                              <input type="tel" id="underwriter-phone" placeholder="Underwriter Contact Phone Number">
+                          </div>
+                          <div class="form-field">
+                              <label>投保人名称</label>
+                              <input type="text" id="policy-holder" placeholder="Based on Reality">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- 模板上传区域 -->
+              <div class="template-upload-area">
+                  <div class="text-center">
+                      <input type="file" id="template-upload" accept=".docx" hidden>
+                      <label for="template-upload" class="template-upload-label">
+                          <svg class="template-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M10 9H10.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          <div>
+                              <p class="template-text">点击上传本地模板</p>
+                              <p class="template-subtext">支持.docx格式</p>
+                          </div>
+                      </label>
+                      <div class="template-info">
+                          <div id="template-filename" class="template-filename">模板尚未选中</div>
+                          <div id="template-size" class="template-size"></div>
+                          <div id="template-status" class="template-status"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- 火险报价面板 -->
+<div class="panel-content" data-panel="fire">
+  <div class="quote-form single-column">
+      <!-- 保险类型下拉框 -->
+      <div class="form-field">
+          <label>保险类型</label>
+          <select id="fire-insurance-type">
+              <option value="财产基本险">财产基本险</option>
+              <option value="财产综合险">财产综合险</option>
+              <option value="财产一切险">财产一切险</option>
+              <option value="营业中断险">营业中断险</option>
+              <option value="机器损坏险">机器损坏险</option>
+              <option value="现金保险">现金保险</option>
+          </select>
+      </div>
+      
+      <!-- 被保险人名称（可添加多个） -->
+      <div class="form-field">
+          <label>被保险人名称</label>
+          <div id="insured-names-container">
+              <div class="dual-language-input">
+                  <input type="text" placeholder="中文名称" class="insured-name-cn">
+                  <input type="text" placeholder="英文名称" class="insured-name-en">
+                  <button type="button" class="add-field-btn" data-target="insured-names-container">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </button>
+              </div>
+          </div>
+      </div>
+      
+      <!-- 被保险人地址（可添加多个） -->
+      <div class="form-field">
+          <label>被保险人地址</label>
+          <div id="insured-addresses-container">
+              <div class="dual-language-input">
+                  <input type="text" placeholder="中文地址" class="insured-address-cn">
+                  <input type="text" placeholder="英文地址" class="insured-address-en">
+                  <button type="button" class="add-field-btn" data-target="insured-addresses-container">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </button>
+              </div>
+          </div>
+      </div>
+      
+      <!-- 承保场所地址（可添加多个） -->
+      <div class="form-field">
+          <label>承保场所地址</label>
+          <div id="insured-locations-container">
+              <div class="dual-language-input">
+                  <input type="text" placeholder="中文地址" class="insured-location-cn">
+                  <input type="text" placeholder="英文地址" class="insured-location-en">
+                  <button type="button" class="add-field-btn" data-target="insured-locations-container">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </button>
+              </div>
+          </div>
+      </div>
+      
+      <!-- 营业性质描述 -->
+      <div class="form-field">
+          <label>营业性质描述</label>
+          <div class="dual-language-input">
+              <input type="text" id="business-description-cn" placeholder="中文描述">
+              <input type="text" id="business-description-en" placeholder="英文描述">
+          </div>
+      </div>
+      
+      <!-- 保险期间 -->
+      <div class="form-field">
+          <label>保险期间</label>
+          <div class="date-range-field">
+              <input type="date" id="fire-insurance-start-date" placeholder="开始日期">
+              <span class="date-separator">至</span>
+              <input type="date" id="fire-insurance-end-date" placeholder="结束日期" readonly>
+          </div>
+      </div>
+      
+      <!-- 报价有效期至 -->
+      <div class="form-field">
+          <label>报价有效期至</label>
+          <input type="date" id="fire-quote-valid-until">
+      </div>
+      
+      <!-- 费率和保费 -->
+      <div class="form-field">
+          <label>费率 (%)</label>
+          <input type="number" id="fire-premium-rate" placeholder="0.01" step="0.001" min="0">
+      </div>
+      
+      <div class="form-field">
+          <label>保费 (RMB)</label>
+          <input type="text" id="fire-premium-amount" placeholder="10,000">
+      </div>
+  </div>
+</div>
+      </div>
+  </div>
+  <div class="modal-footer quote-footer">
+  <button class="btn btn-primary generate-quote-btn" onclick="triggerConfetti()">生成报价单</button>
+</div>
+</div>
+
+  <!-- 对比模态窗口 -->
+
+  <script src="core.js"></script>
+  <script src="custom-dropdown.js"></script>
+
+<!-- 添加键盘快捷键支持 -->
+<script>
+document.addEventListener('keydown', function(e) {
+  // 按下Ctrl+Shift+C组合键清除localStorage并刷新
+  if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+    if (confirm('确定要清除所有本地存储的数据并刷新页面吗？这将删除所有已保存的条款包和设置。')) {
+      window.location.href = window.location.pathname + '?clear_storage=1' + window.location.hash;
+    }
+  }
+});
+</script>
+
+<!-- 在body标签内的最后，添加以下加载动画HTML结构 -->
+
+<!-- 添加Vercel风格加载动画 -->
+<div class="loading-container" id="loading-container">
+  <div class="vercel-loader"></div>
+  <div class="loading-text" id="loading-text">正在解析Excel文件...</div>
+  <div class="loading-progress">
+      <div class="loading-progress-bar" id="loading-progress-bar"></div>
+  </div>
+</div>
+
+<!-- 验证成功屏幕 - 轻量级轮廓版本 -->
+<div class="auth-success-screen" id="auth-success-screen">
+  <div class="auth-success-content">
+    <div class="auth-success-icon">
+      <div class="success-checkmark-container">
+        <div class="success-checkmark-circle"></div>
+        <svg class="checkmark-icon" viewBox="0 0 24 24">
+          <polyline points="5 12 10 17 19 8"></polyline>
+        </svg>
+      </div>
+    </div>
+    <div class="auth-success-message" id="auth-success-message">User Verified</div>
+    <div class="auth-success-welcome" id="auth-success-welcome">Welcome</div>
+  </div>
+</div>
+<!-- 添加过渡层 -->
+<div id="transition-overlay" class="transition-overlay"></div>
+</body>
+</html>

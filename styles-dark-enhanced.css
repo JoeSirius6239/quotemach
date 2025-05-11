@@ -1,0 +1,556 @@
+/* 增强的夜间模式变量 */
+.dark {
+  /* 基础色彩 - 更深的背景，更亮的文字 */
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+
+  /* 中性色调 - 增强对比度 */
+  --muted: #1a1a1a;
+  --muted-foreground: #b8b8b8;
+
+  /* 边框和输入框 - 更明显的边界 */
+  --border: #333333;
+  --input: #222222;
+
+  /* 强调色 - 纯白色 */
+  --ring: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+
+  /* 次要和强调背景 - 更深的灰色 */
+  --secondary: #1e1e1e;
+  --secondary-foreground: #f0f0f0;
+  --accent: #1e1e1e;
+  --accent-foreground: #f0f0f0;
+
+  /* 危险色调 - 更鲜明的红色 */
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+}
+
+/* 优雅的卡片和容器样式 */
+.dark .sidebar,
+.dark .main-content,
+.dark .modal,
+.dark .header {
+  background-color: var(--background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* 微妙的边框发光效果 */
+.dark .sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.dark .header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* 表格增强 */
+.dark .results-table th {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.dark .results-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 按钮样式增强 */
+.dark .btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+.dark .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
+}
+
+.dark .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--foreground);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .btn-outline {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+/* 确保按钮图标在黑暗模式下正确显示 */
+.dark .btn-primary svg,
+.dark .btn-primary svg path {
+  stroke: var(--primary-foreground) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* 特别处理预览按钮的图标 */
+.dark #preview-selected-btn svg,
+.dark #preview-selected-btn svg path {
+  stroke: var(--primary-foreground) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* 确保所有按钮中的图标在黑暗模式下有正确的对比度 */
+.dark .btn svg {
+  opacity: 1;
+}
+
+/* 删除或注释掉这些旧的样式 */
+/* 找到现有的下拉框夜间模式样式 */
+/*
+.dark .search-input,
+.dark .search-column,
+.dark .form-field input,
+.dark .form-field select,
+.dark .form-field textarea,
+.dark .language-selector {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: var(--border);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.dark .search-input:focus,
+.dark .search-column:focus,
+.dark .form-field input:focus,
+.dark .form-field select:focus,
+.dark .form-field textarea:focus,
+.dark .language-selector:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+*/
+
+/* 添加以下Vercel风格的夜间模式下拉框样式 */
+/* Vercel风格下拉框 - 夜间模式增强 */
+.dark select.language-selector,
+.dark select.search-column,
+.dark .form-field select {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+  /* 夜间模式下使用白色箭头图标 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+  text-align: center !important; /* 添加居中对齐 */
+}
+
+.dark select.language-selector:hover,
+.dark select.search-column:hover,
+.dark .form-field select:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark select.language-selector:focus,
+.dark select.search-column:focus,
+.dark .form-field select:focus {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 增强下拉框选项样式 */
+.dark select option {
+  background-color: #1a1a1a !important;
+  color: var(--foreground) !important;
+  text-align: center !important; /* 添加居中对齐 */
+}
+
+/* 保留这些样式，但只针对非下拉框元素 */
+.dark .search-input,
+.dark .form-field input,
+.dark .form-field textarea {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: var(--border);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.dark .search-input:focus,
+.dark .form-field input:focus,
+.dark .form-field textarea:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* 增强下拉框选项样式 */
+.dark select option {
+  background-color: #1a1a1a;
+  color: var(--foreground);
+}
+
+/* 模态窗口增强 */
+.dark .modal {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+}
+
+.dark .modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.dark .modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* 预览项增强 */
+.dark .preview-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.dark .preview-header {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* 滚动条美化 */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* 上传区域增强 */
+.dark .upload-section,
+.dark .template-upload-area {
+  border-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+.dark .upload-section:hover,
+.dark .template-upload-area:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 条款包项增强 */
+.dark .package-item {
+  transition: all 0.2s ease;
+}
+
+.dark .package-item:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.dark .package-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 2px solid var(--primary);
+}
+
+/* 微妙的文本阴影，提高可读性 */
+.dark .modal-title,
+.dark .header-title,
+.dark .splash-title {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* 优雅的通知样式 */
+.dark .notification {
+  background-color: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* 启动屏幕增强 */
+.dark .splash-screen {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+}
+
+.dark .start-btn {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.dark .start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* 微妙的高亮效果 */
+.dark mark {
+  background-color: rgba(234, 179, 8, 0.3);
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* 表格容器增强 */
+.dark .table-container {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+/* 详情值增强 */
+.dark .detail-value {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 标签页增强 */
+.dark .quote-tab.active::after {
+  background-color: var(--primary);
+  height: 2px;
+}
+
+/* 新建条款包按钮 - 夜间模式下使用黑色背景白色文字 */
+.dark .new-package-btn {
+  background-color: #0070f3 !important; /* Vercel蓝色 */
+  color: #ffffff !important;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dark .new-package-btn:hover {
+  opacity: 0.9;
+  background-color: #0060df !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark .new-package-btn svg {
+  color: #ffffff !important;
+}
+
+/* 图标颜色增强 */
+.dark svg {
+  color: var(--foreground);
+}
+
+/* 增强表格行可见性 */
+.dark .results-table td {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* 增强复选框可见性 */
+.dark .custom-checkbox {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .custom-checkbox:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.dark .custom-checkbox:checked::after {
+  border-color: var(--primary-foreground);
+}
+
+/* 增强按钮文字可见性 */
+.dark .btn {
+  font-weight: 500;
+}
+
+/* 增强模态窗口内容可见性 */
+.dark .modal-body {
+  color: var(--foreground);
+}
+
+/* 增强表单标签可见性 */
+.dark .form-field label {
+  color: var(--foreground);
+  opacity: 0.9;
+}
+
+/* 增强分页控件可见性 */
+.dark .pagination-info {
+  color: var(--foreground);
+  opacity: 0.8;
+}
+
+/* 增强限额输入框可见性 */
+.dark .limit-inputs input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 增强条款名称可见性 */
+.dark .clause-name {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+/* 增强条款包名称可见性 */
+.dark .package-name {
+  color: var(--foreground);
+}
+
+/* 增强图标对比度 */
+.dark .upload-icon,
+.dark .search-icon,
+.dark .logo-icon,
+.dark .package-icon,
+.dark .template-icon {
+  opacity: 0.9;
+}
+
+/* 确保夜间模式下的层级与亮色模式一致 */
+.dark .modal-backdrop {
+  z-index: var(--z-modal-backdrop);
+}
+
+.dark .modal {
+  z-index: var(--z-modal);
+}
+
+.dark .notification {
+  z-index: var(--z-notification);
+}
+
+.dark .sidebar {
+  z-index: var(--z-sidebar);
+}
+
+.dark .header {
+  z-index: var(--z-header);
+}
+
+.dark .splash-screen {
+  z-index: var(--z-splash);
+}
+
+/* 优化夜间模式下的滚动条，避免滚动卡顿 */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* 优化夜间模式下的动画性能 */
+.dark .btn-primary:hover,
+.dark .package-item:hover,
+.dark .custom-dropdown-option:hover {
+  will-change: transform, opacity;
+}
+
+/* 对比面板相关的暗色模式样式 */
+.dark .compare-item {
+  /* 任何相关样式 */
+}
+
+.dark .compare-content {
+  /* 任何相关样式 */
+}
+
+.dark .compare-title {
+  /* 任何相关样式 */
+}
+
+/* 绿色按钮增强 */
+.dark .btn-green {
+  background-color: #0070f3;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dark .btn-green:hover {
+  background-color: #0060df;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 模态窗口按钮增强 */
+.dark .modal-footer .btn {
+  min-width: 100px;
+}
+
+/* 预览模态窗口按钮 */
+.dark #export-docx {
+  min-width: 120px;
+}
+
+/* 生成报价单按钮 */
+.dark .generate-quote-btn {
+  background-color: #10b981 !important; /* 绿色 */
+  color: #ffffff !important;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dark .generate-quote-btn:hover {
+  opacity: 0.9;
+  background-color: #0ea271 !important; /* 深一点的绿色用于悬停状态 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 添加以下样式，确保按钮文字为白色 */
+.dark .generate-quote-btn {
+  color: #ffffff !important; /* 使用!important确保优先级 */
+}
+
+/* 确保按钮中的任何SVG图标也是白色 */
+.dark .generate-quote-btn svg,
+.dark .generate-quote-btn svg path {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* 删除按钮在黑夜模式下的样式 */
+.dark .remove-field-btn {
+  color: #e11d48 !important; /* 使用destructive红色 */
+}
+
+.dark .remove-field-btn:hover {
+  background-color: rgba(225, 29, 72, 0.1);
+  color: #f43f5e !important; /* 悬停时颜色更亮 */
+}
+
+.dark .remove-field-btn svg {
+  stroke: #e11d48 !important; /* 确保SVG图标也是红色 */
+}
+
+.dark .remove-field-btn:hover svg {
+  stroke: #f43f5e !important; /* 悬停时SVG颜色更亮 */
+}
+
+/* 暗色模式下的空条款包提示样式 */
+.dark .empty-packages-message {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark .empty-packages-icon {
+  opacity: 0.4;
+  color: rgba(255, 255, 255, 0.6);
+}

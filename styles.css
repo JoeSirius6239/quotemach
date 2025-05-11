@@ -1,0 +1,3389 @@
+:root {
+  /* Vercel风格颜色变量 */
+  --background: #fff;
+  --foreground: #000;
+  --muted: #fafafa;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #000;
+  --primary: #000;
+  --primary-foreground: #fff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --destructive-foreground: #fff;
+  --radius: 6px;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --header-height: 64px;
+  --sidebar-width: 260px;
+
+  /* 找到现有的z-index变量定义，替换为以下内容 */
+  /* 添加z-index变量 - 更细致的层级控制 */
+  --z-base: 1;
+  --z-table: 5; /* 表格默认层级 */
+  --z-header: 10;
+  --z-dropdown-filter: 15; /* 搜索筛选下拉框层级 */
+  --z-sidebar: 50;
+  --z-dropdown: 80;
+  --z-notification: 900; /* 提高通知的层级，确保它总是可见 */
+  --z-modal-backdrop: 1000; /* 提高模态背景层级 */
+  --z-modal: 1100; /* 所有模态窗口使用相同的基础层级 */
+  --z-splash: 2000; /* 启动屏幕应该是最高层级 */
+}
+
+.dark {
+  /* 基础色彩 - 更深的背景，更亮的文字 */
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+
+  /* 中性色调 - 增强对比度 */
+  --muted: #1a1a1a;
+  --muted-foreground: #b8b8b8;
+
+  /* 边框和输入框 - 更明显的边界 */
+  --border: #333333;
+  --input: #222222;
+
+  /* 强调色 - 纯白色 */
+  --ring: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+
+  /* 次要和强调背景 - 更深的灰色 */
+  --secondary: #1e1e1e;
+  --secondary-foreground: #f0f0f0;
+  --accent: #1e1e1e;
+  --accent-foreground: #f0f0f0;
+
+  /* 危险色调 - 更鲜明的红色 */
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.2s, color 0.2s;
+  min-height: 100vh;
+  display: flex;
+  line-height: 1.5;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 左侧边栏 - Vercel风格 */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--background);
+  border-right: 1px solid var(--border);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  z-index: var(--z-sidebar);
+}
+
+.sidebar-header {
+  height: var(--header-height);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* 找到并替换现有的按钮样式部分 */
+
+/* Button Base Styles - Vercel Inspired */
+.btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  border: none;
+  letter-spacing: -0.01em;
+}
+
+/* Primary Button - Black/White */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  min-width: 80px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  opacity: 0.8;
+}
+
+/* Secondary Button - Gray */
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.btn-secondary:hover {
+  background-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Outline Button - Bordered */
+.btn-outline {
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  background-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Green Button - For actions like "Start Quote" */
+.btn-green {
+  background-color: #0070f3; /* Vercel blue instead of green */
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-green:hover {
+  background-color: #0060df;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-green:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Destructive Button - Red */
+.btn-destructive {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
+.btn-destructive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-destructive:active {
+  transform: translateY(0);
+}
+
+/* Icon Button */
+.btn-icon {
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+}
+
+/* Small Button */
+.btn-sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+/* Large Button */
+.btn-lg {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+/* Disabled Button */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Dark Mode Button Styles */
+.dark .btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .btn-primary:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.95;
+}
+
+.dark .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--foreground);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark .btn-outline {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .btn-green {
+  background-color: #0070f3; /* Vercel blue */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .btn-green:hover {
+  background-color: #0060df;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal Action Buttons */
+.modal-footer .btn {
+  min-width: 100px;
+}
+
+/* Action Buttons Group */
+.action-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Ensure all buttons in the action group have consistent height */
+.action-buttons .btn {
+  height: 36px;
+}
+
+/* Fix for the search section buttons */
+.search-section .btn {
+  height: 36px;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+/* Ensure proper spacing in button groups */
+.action-group .btn + .btn {
+  margin-left: 0;
+}
+
+/* Ensure icons in buttons are properly sized and aligned */
+.btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Ensure proper icon color in dark mode */
+.dark .btn-primary svg,
+.dark .btn-primary svg path {
+  stroke: var(--primary-foreground);
+  color: var(--primary-foreground);
+}
+
+/* Special styling for the preview button */
+#preview-selected-btn {
+  min-width: 140px;
+}
+
+/* Special styling for the export button */
+#export-docx {
+  min-width: 120px;
+}
+
+/* Special styling for the generate quote button */
+.generate-quote-btn {
+  min-width: 160px;
+  background-color: #0070f3; /* Vercel blue */
+}
+
+.generate-quote-btn:hover {
+  background-color: #0060df;
+}
+
+/* New Package Button - Vercel Style */
+.new-package-btn {
+  display: flex;
+  margin: 16px;
+  padding: 10px 12px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.15s ease;
+  width: calc(100% - 32px);
+  letter-spacing: -0.01em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.new-package-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.new-package-btn:active {
+  transform: translateY(0);
+  opacity: 0.8;
+}
+
+/* 导出已保存包按钮 - Vercel Style */
+.export-packages-btn {
+  display: flex;
+  margin: 0 16px 16px 16px;
+  padding: 10px 12px;
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.15s ease;
+  width: calc(100% - 32px);
+  letter-spacing: -0.01em;
+}
+
+.export-packages-btn:hover {
+  background-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.export-packages-btn:active {
+  transform: translateY(0);
+}
+
+.dark .export-packages-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--foreground);
+}
+
+.dark .export-packages-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .export-packages-btn svg {
+  color: var(--foreground);
+}
+
+.packages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+/* 添加空条款包提示样式 */
+.empty-packages-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--muted-foreground);
+  height: 100%;
+  min-height: 200px;
+}
+
+.empty-packages-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.5;
+  margin-bottom: 16px;
+  color: var(--muted-foreground);
+}
+
+.empty-packages-message p {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* 添加 a style for the new hint text in the empty packages message: */
+.empty-packages-hint {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* 确保包列表区域在空状态下也有足够的高度 */
+.packages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 确保包列表区域在空状态下也有足够的高度，并留出按钮空间 */
+.packages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px; /* 为按钮留出空间 */
+}
+
+/* 修改包列表区域的样式，使其在空状态下也能垂直居中内容 */
+.packages-list:empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.package-item {
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  font-size: 13px;
+}
+
+.package-item:hover {
+  background-color: var(--secondary);
+}
+
+.package-item.active {
+  background-color: var(--secondary);
+  font-weight: 500;
+}
+
+/* 找到 .package-item 样式定义，在其后添加以下样式 */
+
+/* 添加白天模式下的条款包选中样式 */
+.package-item.active {
+  background-color: var(--secondary);
+  border-left: 2px solid var(--primary);
+  font-weight: 500;
+}
+
+/* 添加简单的静态样式，不包含任何动画 */
+.package-item.active {
+  transition: background-color 0.2s ease;
+}
+
+/* 确保黑夜模式下的样式优先级更高 */
+.dark .package-item.active {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-left: 2px solid var(--primary);
+}
+
+.package-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.package-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.package-meta {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+.package-actions {
+  display: none;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--background);
+  border-radius: var(--radius);
+  padding: 2px;
+  z-index: calc(var(--z-sidebar) + 1);
+}
+
+.package-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.package-action-btn:hover {
+  opacity: 1;
+}
+
+.sidebar-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  opacity: 1;
+}
+
+/* 主内容区域 */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  max-width: calc(100vw - var(--sidebar-width));
+  transition: margin-left 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  height: var(--header-height);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  background-color: var(--background);
+  z-index: 1000 !important;
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Find and replace the existing .search-section styles with these updated styles */
+/* Search section - Vercel style */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: var(--z-dropdown-filter);
+  width: 100%;
+}
+
+/* Dropdown container */
+.search-section .custom-dropdown-container,
+.search-section select.search-column {
+  min-width: 120px;
+  max-width: 140px;
+  flex-shrink: 0;
+  height: 40px;
+}
+
+/* Search input wrapper */
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  height: 40px;
+}
+
+/* Search icon */
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Search input */
+.search-input {
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 36px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 1px var(--ring-light, rgba(0, 0, 0, 0.05));
+}
+
+/* Search and reset buttons */
+.search-section .btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.search-section .btn-primary {
+  min-width: 80px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+}
+
+.search-section .btn-outline {
+  min-width: 80px;
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+/* Dark mode specific styles */
+.dark .search-section .search-input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: var(--border);
+}
+
+.dark .search-section .search-input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.dark .search-section .btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.dark .search-section .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
+}
+
+.dark .search-section .btn-outline {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .search-section .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-section {
+    flex-wrap: wrap;
+  }
+
+  .search-section .custom-dropdown-container,
+  .search-section select.search-column {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 8px;
+  }
+
+  .search-input-wrapper {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .search-section .btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section .btn {
+    width: 100%;
+  }
+}
+
+/* 找到现有的下拉框样式 */
+/* 删除或注释掉这些旧的式 */
+/*
+.language-selector {
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.language-selector:focus {
+  border-color: var(--ring);
+}
+
+.search-column {
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  min-width: 140px;
+  transition: border-color 0.2s;
+}
+
+.search-column:focus {
+  border-color: var(--ring);
+}
+*/
+/* 添加这些新的、更具体的样式 */
+/* Vercel风格下拉框 - 全局样式 */
+select.language-selector,
+select.search-column,
+.form-field select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  padding: 8px 32px 8px 12px !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--border) !important;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  font-size: 13px !important;
+  font-family: var(--font-sans) !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 16px !important;
+  text-align: center !important; /* 添加居中对齐 */
+}
+
+select.language-selector:hover,
+select.search-column:hover,
+.form-field select:hover {
+  border-color: var(--ring) !important;
+  background-color: var(--muted) !important;
+}
+
+select.language-selector:focus,
+select.search-column:focus,
+.form-field select:focus {
+  border-color: var(--ring) !important;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 确保搜索列选择器保持最小宽度 */
+select.search-column {
+  min-width: 140px !important;
+}
+
+/* 添加下拉选项居中样式 */
+select.language-selector option,
+select.search-column option,
+.form-field select option {
+  text-align: center !important;
+  padding: 8px 12px !important;
+}
+
+.content-container {
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 上传区域 */
+/* 修改上传区域样式，确保它始终可点击 */
+.upload-section {
+  background-color: var(--background);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 5; /* 确保上传区域有足够高的z-index */
+}
+
+/* 文件选择后的视觉反馈 */
+.upload-section.file-selected {
+  border-color: #10b981;
+  background-color: rgba(16, 185, 129, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dark .upload-section.file-selected {
+  border-color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.upload-section:hover {
+  border-color: var(--foreground);
+  background-color: var(--muted);
+}
+
+.upload-section:active {
+  transform: scale(0.99);
+}
+
+/* 添加拖放相关样式 */
+.upload-section.dragover {
+  border-color: var(--primary);
+  background-color: var(--secondary);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .upload-section.dragover {
+  border-color: var(--primary);
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none; /* 防止子元素阻止点击事件 */
+}
+
+/* 上传图标样式 */
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.upload-section:hover .upload-icon {
+  transform: translateY(-2px);
+}
+
+/* 搜索区域 */
+/* 修改 .search-section 样式，使用flex布局替代grid以便更好地控制水平对齐 */
+/*.search-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* 修改搜索列选择器宽度 */
+/*.search-section .custom-dropdown-container,
+select.search-column {
+  width: 140px !important; /* 固定宽度，不要太长 */
+flex-shrink: 
+0
+; /* 防止压缩 */
+}
+
+/* 修改搜索输入框包装器样式 */
+/*.search-input-wrapper {
+  position: relative;
+  flex: 1; /* 让搜索框占据剩余空间 */
+display:flex 
+;
+align-items:center 
+;
+}
+
+/* 修改搜索图标样式，确保它正确嵌入到搜索框左侧 */
+/*.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  pointer-events: none; /* 确保图标不会阻挡点击事件 */
+z-index: 
+2
+; /* 确保图标显示在输入框上方 */
+}
+
+/* 修改搜索输入框样式，确保有足够的左侧内边距容纳图标 */
+/*.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px; /* 增加左侧内边距，为图标留出空间 */
+border-radius: var(--radius
+)
+;
+border: 1px solid var(--border
+)
+;
+background-color: var(--background
+)
+;
+color: var(--foreground
+)
+;
+font-size: 14px
+;
+font-family: var(--font-sans
+)
+;
+outline:none 
+;
+transition: border-color 0.2s
+;
+height: 38px
+; /* 确保高度与下拉框一致 */
+position:relative 
+; /* 确保定位上下文正确 */
+}
+
+/* 确保搜索输入包装器有正确的定位上下文 */
+/*.search-input-wrapper {
+  position: relative;
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+}
+
+/* 修改搜索输入框包装器样式，使其占据两列 */
+.search-input-wrapper {
+  position: relative;
+  flex: 1; /* 让搜索框占据剩余空间 */
+  display: flex;
+  align-items: center;
+}
+
+/* 确保搜索输入框填满其容器 */
+/*.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 14px;ze: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+  height: 38px; /* 确保高度与下拉框一致 */
+/*}*/
+
+/* 修改按钮样式，使其填满各自的单元格 */
+/*.search-section .btn {
+  width: 100%;
+  height: 38px; /* 确保高度与下拉框一致 */
+padding: 8px 16px
+;
+border-radius: var(--radius
+)
+;
+font-weight: 
+500
+;
+font-size: 14px
+;
+cursor:pointer 
+;
+transition: opacity 0.2s, background-color 0.2s
+;
+display:inline-flex 
+;
+align-items:center 
+;
+justify-content:center 
+;
+gap: 6px
+;
+font-family: var(--font-sans
+)
+;
+}
+
+/* 确保下拉框容器宽度一致 */
+/*.search-section .custom-dropdown-container {
+  width: 100% !important;
+}
+
+/* 确保下拉框选中项宽度一致 */
+/*.search-section .custom-dropdown-selected {
+  width: 100%;
+  height: 38px; /* 统一高度 */
+display:flex 
+;
+align-items:center 
+;
+}
+
+/* 响应式调整 */
+/*@media (max-width: 768px) {
+  .search-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-input-wrapper {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-section {
+    grid-template-columns: 1fr;
+  }
+
+  .search-input-wrapper {
+    grid-column: span 1;
+  }
+}
+
+/* 修改搜索按钮和重置按钮的宽度 */
+/*.search-section .btn-primary,
+.search-section .btn-outline {
+  width: 80px !important; /* 固定宽度，不要太长 */
+flex-shrink: 
+0
+; /* 防止压缩 */
+}
+
+/* 确保所有元素高度一致 */
+/*.search-section .custom-dropdown-selected,
+.search-input,
+.search-section .btn {
+  height: 38px; /* 统一高度 */
+}
+
+/* 响应式调整 */
+/*@media (max-width: 768px) {
+  .search-section {
+    flex-wrap: wrap;
+  }
+
+  .search-section .custom-dropdown-container,
+  select.search-column {
+    width: 100% !important;
+    margin-bottom: 8px;
+  }
+
+  .search-input-wrapper {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .search-section .btn-primary,
+  .search-section .btn-outline {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section .btn-primary,
+  .search-section .btn-outline {
+    width: 100% !important;
+  }
+}*/
+
+/* 找到现有的表格样式 */
+/* 修改表格容器的样式，使其有更圆润的边角 */
+.table-container {
+  border: 1px solid var(--border);
+  border-radius: 16px; /* 增加圆角半径，使其更圆润 */
+  overflow: hidden;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1; /* 降低表格容器的z-index */
+  box-shadow: none; /* 移除阴影，使其更扁平 */
+  background-color: #fff; /* 确保表格背景为白色 */
+}
+
+/* 替换为以下更强的圆角设置 */
+.table-container {
+  border: 1px solid var(--border);
+  border-radius: var(--radius); /* 使用与按钮相同的圆角变量 */
+  overflow: hidden; /* 确保内容不会溢出圆角 */
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  box-shadow: none;
+  background-color: #fff;
+  /* 添加!important确保样式不被覆盖 */
+  border-radius: var(--radius) !important;
+}
+
+/* 同时修改表格角落的圆角大小 */
+.results-table th:first-child {
+  border-top-left-radius: var(--radius);
+}
+
+.results-table th:last-child {
+  border-top-right-radius: var(--radius);
+}
+
+.results-table tr:last-child td:first-child {
+  border-bottom-left-radius: var(--radius);
+}
+
+.results-table tr:last-child td:last-child {
+  border-bottom-right-radius: var(--radius);
+}
+
+/* 修改表头样式，使其更轻柔 */
+.results-table th {
+  background-color: #f5f5f5; /* 更浅的灰色背景 */
+  color: #333; /* 更深的文字颜色，提高对比度 */
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  /* 添加以下属性确保背景色完全填充 */
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* 确保表格第一行的左上和右上角是圆的 */
+.results-table thead tr:first-child th:first-child {
+  border-top-left-radius: var(--radius);
+}
+
+.results-table thead tr:first-child th:last-child {
+  border-top-right-radius: var(--radius);
+}
+
+/* 确保表格最后一行的左下和右下角是圆的 */
+.results-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--radius);
+}
+
+.results-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--radius);
+}
+
+/* 修改表头样式，使其更轻柔 */
+.results-table th {
+  background-color: #f5f5f5; /* 更浅的灰色背景 */
+  color: #333; /* 更深的文字颜色，提高对比度 */
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 确保表格在正常状态下可见性最高 */
+.results-table {
+ table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse; /* 使用collapse而不是separate */
+  border-spacing: 0;
+  will-change: transform; /* 提示浏览器这个元素会变化，优化渲染性能 */
+  position: relative;
+  z-index: 1; /* 降低表格的z-index */
+}
+
+/* 为各列设置固定宽度 */
+.results-table th:nth-child(1),
+.results-table td:nth-child(1) {
+  width: 70px; /* 可以根据需要调整到70px或更大 */
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.results-table th:nth-child(2),
+.results-table td:nth-child(2) {
+  width: 120px; /* 条款编码列 */
+}
+
+.results-table th:nth-child(3),
+.results-table td:nth-child(3) {
+  width: auto; /* 条款名称列 - 自动占用剩余空间 */
+  min-width: 250px; /* 最小宽度 */
+}
+
+.results-table th:nth-child(4),
+.results-table td:nth-child(4) {
+  width: 120px; /* 产品类别列 */
+}
+
+/* 修改表格单元格样式 */
+.results-table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: #333;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 修改表格行悬停效果 */
+.results-table tbody tr:hover {
+  background-color: #fafafa; /* 更轻微的悬停效果 */
+}
+
+/* 修改暗色模式下的表格样式 */
+.dark .table-container {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: #0a0a0a; /* 暗色模式下的背景色 */
+  box-shadow: none;
+}
+
+.dark .results-table th {
+  background-color: #1a1a1a; /* 暗色模式下更深的表头背景 */
+  color: #f0f0f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .results-table td {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #f0f0f0;
+}
+
+.dark .results-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03); /* 暗色模式下更微妙的悬停效果 */
+}
+
+/* 修改复选框样式，使其更圆润 */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d0d0d0; /* 更浅的边框颜色 */
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-checkbox:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.dark .custom-checkbox {
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* 修改表格内的空状态消息样式 */
+.results-table td[colspan="4"] {
+  text-align: center;
+  padding: 32px;
+  color: #888; /* 更浅的文字颜色 */
+  font-size: 14px;
+}
+
+.dark .results-table td[colspan="4"] {
+  color: #aaa;
+}
+
+/* 添加results-body的z-index设置 */
+#results-body {
+  position: relative;
+  z-index: 1; /* 降低表格内容的z-index */
+}
+
+.clause-name {
+  color: var(--foreground);
+  cursor: pointer !important;
+  transition: color 0.2s;
+}
+
+.clause-name:hover {
+  color: var(--ring);
+  text-decoration: underline;
+}
+
+/* 复选框样式 */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--background);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-checkbox:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--primary-foreground);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox:focus {
+  outline: none;
+  border-color: var(--ring);
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+/* 分页控制 */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+/* 修改模态窗口相关样式 */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: var(--z-modal-backdrop);
+  opacity: 0;
+  transition: opacity 0.2s;
+  backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  display: flex;
+}
+
+/* 修改模态窗口相关样式，确保隐藏时不会阻挡点击 */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background-color: var(--background);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  z-index: -1; /* 默认为-1，只有显示时才提高z-index */
+  opacity: 0;
+  transition: transform 0.2s, opacity 0.2s;
+  overflow: hidden;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: var(--z-modal); /* 显示时提高z-index */
+}
+
+.modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.close-modal:hover {
+  background-color: var(--secondary);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch; /* 增加iOS滚动流畅度 */
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* 找到现有的.modal样式，并在其后添加以下特定于报价面板的样式 */
+
+/* 报价面板固定尺寸 - Vercel风格 */
+#quote-panel {
+  width: 1000px; /* 从800px增加到1000px */
+  height: 700px; /* 增加高度以确保基本信息页面无需滚动 */
+  max-width: 95vw; /* 从90vw增加到95vw，在小屏幕上占据更多空间 */
+  max-height: 90vh; /* 增加最大高度比例 */
+}
+
+/* 确保面板内容可滚动但不影响整体尺寸 */
+#quote-panel .modal-body {
+  height: calc(100% - 130px); /* 减去头部和底部的高度，稍微调整以适应更大的面板 */
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* 确保所有面板内容区域具有相同的最小高度 */
+.panel-content {
+  min-height: 480px; /* 增加最小高度以匹配更大的面板 */
+}
+
+/* 修改面板内容样式，确保所有面板内容区域具有一致的样式 */
+.panel-content {
+  padding: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  overflow-y: auto;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  #quote-panel {
+    width: 95vw;
+    height: 90vh; /* 增加响应式高度 */
+  }
+
+  .quote-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 优化模板上传区域在更大面板中的布局 */
+.template-upload-area {
+  margin-top: 32px; /* 增加上边距 */
+  margin-bottom: 16px; /* 添加下边距 */
+}
+
+/* 预览模态窗口 */
+.preview-header {
+  display: grid;
+  grid-template-columns: 120px 120px 1fr 150px;
+  gap: 16px;
+  padding: 12px 24px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+  font-size: 13px;
+}
+
+.preview-item {
+  display: grid;
+  grid-template-columns: 120px 120px 1fr 150px;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.preview-item:last-child {
+  border-bottom: none;
+}
+
+/* 详情模态窗口 */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  row-gap: 24px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.detail-value {
+  padding: 12px;
+  background-color: var(--secondary);
+  border-radius: var(--radius);
+}
+
+/* 报价模态窗口 */
+/* 报价面板标签页 */
+.quote-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding: 0 8px; /* 添加左右内边距 */
+}
+
+/* 确保选项卡在较小屏幕上可以滚动查看 */
+.quote-tabs {
+  padding-bottom: 2px; /* 添加一点底部填充，使滚动条不会紧贴边缘 */
+  flex-wrap: nowrap; /* 确保不换行 */
+}
+
+/* 确保选项卡有最小宽度，避免文字挤压 */
+.quote-tab {
+  min-width: max-content; /* 根据内容设置最小宽度 */
+  flex-shrink: 0; /* 防止选项卡被压缩 */
+}
+
+.quote-tab {
+  padding: 12px 14px; /* 从12px 16px减小到12px 14px */
+  background: none;
+  border: none;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0; /* 防止选项卡被压缩 */
+}
+
+/* 添加选项卡滚动指示器，提示用户可以滚动查看更多选项卡 */
+.quote-tabs::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right, transparent, var(--background));
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.quote-tab:hover {
+  color: var(--foreground);
+}
+
+.quote-tab.active {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.quote-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--foreground);
+}
+
+/* 报价表单样式 */
+.quote-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--ring);
+}
+
+.form-section-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 修改面板内容样式，确保隐藏时不会阻挡点击 */
+.panel-content {
+  display: none; /* 改为display:none而不是使用opacity和pointer-events */
+  padding: 24px 0;
+  position: relative; /* 改为relative而不是 absolute */
+  z-index: 1; /* 所有面板使用相同的z-index */
+  overflow-y: auto;
+  height: 100%; /* 确保面板填满容器 */
+}
+
+.panel-content.active {
+  display: block; /* 使用display:block而不是opacity */
+}
+
+/* 修改面板容器样式，确保正确定位面板内容 */
+.panel-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 日期范围字段 */
+.date-range-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-range-field input {
+  flex: 1;
+}
+
+.date-separator {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+/* 空面板消息 */
+.empty-panel-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.empty-panel-message svg {
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.empty-panel-message p {
+  font-size: 16px;
+}
+
+/* 报价底部按钮 */
+.quote-footer {
+  display: flex;
+  justify-content: center;
+  padding: 16px 24px;
+}
+
+.generate-quote-btn {
+  min-width: 160px;
+}
+
+/* 启动动画 */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-splash);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.splash-screen.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.splash-logo {
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.splash-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+
+.splash-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.splash-subtitle {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+
+.start-btn {
+  padding: 10px 24px;
+  border-radius: var(--radius);
+  border: none;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  font-size: 14px;
+  font-family: var(--font-sans);
+}
+
+.start-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* 限额输入 */
+.limit-controls {
+  position: relative;
+}
+
+.limit-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.limit-inputs input {
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.limit-inputs input:focus {
+  border-color: var(--ring);
+}
+
+/* 限额标记 */
+.limit-marker {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #10b981;
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* 模板上传区域 */
+.template-upload-area {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.template-upload-area:hover {
+  border-color: var(--foreground);
+  background-color: var(--muted);
+}
+
+.template-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.template-icon {
+  width: 40px;
+  height: 40px;
+  opacity: 0.7;
+}
+
+.template-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.template-subtext {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.template-info {
+  margin-top: 16px;
+}
+
+.template-filename {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.template-size {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+.template-status {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+/* 通知提示 */
+.notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: var(--z-notification);
+  transform: translateY(16px);
+  opacity: 0;
+  transition: transform 0.2s, opacity 0.2s;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.notification-message {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.notification.success .notification-icon {
+  color: #10b981;
+}
+
+.notification.error .notification-icon {
+  color: #ef4444;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    max-width: 100vw;
+  }
+
+  .quote-form {
+    grid-template-columns: 1fr;
+  }
+
+  .date-range-field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .date-range-field input {
+    width: 100%;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .preview-header,
+  .preview-item {
+    grid-template-columns: 100px 100px 1fr;
+  }
+
+  .preview-item .limit-controls {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+}
+
+/* 工具类 */
+.hidden {
+  display: none !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mt-6 {
+  margin-top: 24px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.mb-6 {
+  margin-bottom: 24px;
+}
+
+.p-2 {
+  padding: 8px;
+}
+
+.p-4 {
+  padding: 16px;
+}
+
+.rounded {
+  border-radius: var(--radius);
+}
+
+.border {
+  border: 1px solid var(--border);
+}
+
+.border-t {
+  border-top: 1px solid var(--border);
+}
+
+.border-b {
+  border-bottom: 1px solid var(--border);
+}
+
+.text-sm {
+  font-size: 13px;
+}
+
+.text-xs {
+  font-size: 12px;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.bg-muted {
+  background-color: var(--secondary);
+}
+
+/* 高亮搜索结果 */
+mark {
+  background-color: rgba(250, 204, 21, 0.2);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.dark mark {
+  background-color: rgba(250, 204, 21, 0.3);
+}
+
+/* 加载动画 */
+.loading {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+  border-top-color: var(--foreground);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 菜单按钮（移动端） */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+  z-index: calc(var(--z-header) + 1);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+}
+
+/* 优雅的夜间模式增强 */
+.dark .sidebar,
+.dark .main-content,
+.dark .modal,
+.dark .header {
+  background-color: var(--background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* 微妙的边框发光效果 */
+.dark .sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 表格增强 */
+.dark .results-table th {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.dark .results-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* 按钮样式增强 */
+.dark .btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.dark .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.95;
+}
+
+.dark .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--foreground);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark .btn-outline {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 输入框样式增强 */
+.dark .search-input,
+.dark .search-column,
+.dark .form-field input,
+.dark .form-field select,
+.dark .form-field textarea,
+.dark .language-selector {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--border);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.dark .search-input:focus,
+.dark .search-column:focus,
+.dark .form-field input:focus,
+.dark .form-field select:focus,
+.dark .form-field textarea:focus,
+.dark .language-selector:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* 模态窗口增强 */
+.dark .modal {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.dark .modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 预览项增强 */
+.dark .preview-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .preview-header {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 滚动条美化 */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* 上传区域增强 */
+.dark .upload-section,
+.dark .template-upload-area {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+}
+
+.dark .upload-section:hover,
+.dark .template-upload-area:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* 条款包项增强 */
+.dark .package-item {
+  transition: all 0.2s ease;
+}
+
+.dark .package-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .package-item.active {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-left: 2px solid var(--primary);
+}
+
+/* 微妙的文本阴影，提高可读性 */
+.dark .modal-title,
+.dark .header-title,
+.dark .splash-title {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 优雅的通知样式 */
+.dark .notification {
+  background-color: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* 启动屏幕增强 */
+.dark .splash-screen {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+.dark .start-btn {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dark .start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 微妙的高亮效果 */
+.dark mark {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: #f5f5f5;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* 表格容器增强 */
+.dark .table-container {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 详情值增强 */
+.dark .detail-value {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* 标签页增强 */
+.dark .quote-tab.active::after {
+  background-color: var(--primary);
+  height: 2px;
+}
+
+.dark .new-package-btn {
+  background: linear-gradient(135deg, #333 0%, #222 100%);
+}
+
+/* 添加自定义下拉框z-index */
+.custom-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background-color: var(--background);
+  z-index: var(--z-dropdown);
+  transition: max-height 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2px;
+}
+
+/* 优化点击区域，增加可点击性 */
+.clause-name,
+.btn,
+.package-item,
+.custom-checkbox,
+.close-modal,
+.quote-tab {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+/* 修改搜索筛选下拉框的z-index */
+.search-section .custom-dropdown-container,
+select.search-column {
+  position: relative;
+  z-index: var(--z-dropdown-filter);
+}
+
+/* 确保下拉选项在打开时高于表格 */
+.custom-dropdown-options.show {
+  max-height: 200px;
+  overflow-y: auto;
+  border-color: var(--border);
+  z-index: var(--z-dropdown-filter);
+}
+
+/* 修改预览模态窗口的z-index */
+#preview-modal,
+#simple-preview-modal,
+#detail-modal {
+  z-index: var(--z-preview-panel);
+}
+
+/* 修改报价面板的z-index */
+#quote-panel {
+  z-index: var(--z-quote-panel);
+}
+
+/* 确保模态窗口背景在所有面板之下 */
+.modal-backdrop.show {
+  opacity: 1;
+  display: flex;
+  z-index: var(--z-modal-backdrop);
+}
+
+/* 在文件末尾添加以下Vercel风格加载动画样式 */
+
+/* Vercel风格加载动画容器 */
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loading-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 黑夜模式下的背景 */
+.dark .loading-container {
+  background-color: rgba(10, 10, 10, 0.85);
+}
+
+/* Vercel风格加载动画 */
+.vercel-loader {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.vercel-loader::before,
+.vercel-loader::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  animation-duration: 1.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.1));
+}
+
+.vercel-loader::before {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.05);
+  animation-name: vercel-pulse;
+}
+
+.dark .vercel-loader::before {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.vercel-loader::after {
+  width: 40%;
+  height: 40%;
+  background-color: rgba(0, 0, 0, 0.9);
+  top: 30%;
+  left: 30%;
+  animation-name: vercel-pulse-dot;
+}
+
+.dark .vercel-loader::after {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes vercel-pulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes vercel-pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.loading-text {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+}
+
+.dark .loading-text {
+  color: #fff;
+}
+
+.loading-progress {
+  margin-top: 8px;
+  width: 200px;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  direction: ltr !important; /* 强制从左到右 */
+  text-align: left !important;
+}
+
+.dark .loading-progress {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.loading-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: auto;
+  height: 100%;
+  width: 0%;
+  background-color: #000;
+  
+  /* 移除宽度过渡效果，改为使用transform来实现动画 */
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+  
+  /* 确保不会受到RTL设置的影响 */
+  direction: ltr !important;
+}
+
+/* 当JavaScript更新宽度时，使用这个类来触发变换 */
+.loading-progress-bar[style*="width"] {
+  transform: scaleX(1);
+  /* 宽度已由JavaScript设置，这里使用transform来控制动画方向 */
+}
+
+.dark .loading-progress-bar {
+  background-color: #fff;
+}
+
+/* 加载动画中的脉冲效果 */
+.loading-pulse {
+  animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 确保按钮图标在黑暗模式下正确显示 */
+.dark .btn-primary svg {
+  stroke: var(--primary-foreground);
+  color: var(--primary-foreground);
+}
+
+.dark .btn-primary .btn-icon {
+  stroke: var(--primary-foreground);
+  color: var(--primary-foreground);
+}
+
+/* 确保所有主要按钮中的图标在黑暗模式下可见 */
+.dark .btn-primary svg path {
+  stroke: var(--primary-foreground);
+}
+
+/* 添加这个新样式，专门针对预览按钮的图标 */
+#preview-selected-btn svg,
+#preview-selected-btn svg path {
+  stroke: currentColor;
+  color: currentColor;
+}
+
+/* 找到并修改语言选择器的宽度 */
+.header-actions .language-selector,
+.header-actions .custom-dropdown-container {
+  min-width: 120px !important; /* 增加最小宽度，确保文字不会换行 */
+  width: auto !important;
+}
+
+/* 确保下拉框内容也有足够的宽度 */
+.header-actions .custom-dropdown-options {
+  min-width: 120px !important;
+}
+
+/* 确保下拉框选中项文字不会换行 */
+.header-actions .custom-dropdown-selected {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 确保confetti动画显示在最上层 */
+canvas.confetti-canvas {
+  position: fixed !important;
+  z-index: 9999 !important; /* 非常高的z-index值 */
+  pointer-events: none; /* 确保不会阻挡点击事件 */
+}
+
+/* 添加通知系统的样式覆盖，确保最高优先级显示 */
+.notification {
+  z-index: 9999 !important; /* 使用!important确保优先级 */
+  position: fixed !important;
+  pointer-events: auto !important;
+}
+
+#notification-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 10px !important;
+  pointer-events: none !important; /* 容器不阻挡点击 */
+}
+
+/* 确保confetti动画也显示在最高层 */
+canvas.confetti-canvas {
+  z-index: 9999 !important;
+  pointer-events: none !important;
+}
+
+/* 添加报价面板打开时的body样式 */
+body.quote-panel-open {
+  overflow: hidden; /* 防止背景滚动 */
+}
+
+/* 修改面板内容样式，确保所有面板内容区域具有一致的样式 */
+.panel-content {
+  padding: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  overflow-y: auto;
+}
+
+.panel-content.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* 修改面板容器样式，确保正确定位面板内容 */
+.panel-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 确保表单在面板中正确布局 */
+.quote-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* 找到 the correct place to insert the single column form styles */
+
+/* 添加单列表单样式 */
+.quote-form.single-column {
+  display: block;
+  max-width: 100%;
+}
+
+.quote-form.single-column .form-field {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.quote-form.single-column .dual-language-input {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.quote-form.single-column .dual-language-input input {
+  flex: 1;
+}
+
+/* 确保日期字段在单列布局中正确显示 */
+.quote-form.single-column .date-range-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.quote-form.single-column .date-range-field input {
+  flex: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  #quote-panel {
+    width: 95vw;
+    height: 85vh;
+  }
+
+  .quote-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 双语输入框样式 */
+.dual-language-input {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.dual-language-input input {
+  flex: 1;
+}
+
+.add-field-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--foreground);
+  transition: background-color 0.2s;
+}
+
+.add-field-btn:hover {
+  background-color: var(--secondary);
+}
+
+.dark .add-field-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.remove-field-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--destructive);
+  transition: background-color 0.2s;
+}
+
+.remove-field-btn:hover {
+  background-color: var(--secondary);
+}
+
+.dark .remove-field-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 确保日期输入框样式一致 */
+.date-range-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-range-field input {
+  flex: 1;
+}
+
+.date-separator {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+/* 确保表单字段在移动设备上正确显示 */
+@media (max-width: 768px) {
+  .dual-language-input {
+    flex-direction: column;
+  }
+
+  .date-range-field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .date-range-field input {
+    width: 100%;
+  }
+}
+
+/* 找到报价面板固定尺寸的样式，将宽度从800px增加到1000px */
+/* 报价面板固定尺寸 - Vercel风格 */
+#quote-panel {
+  width: 1000px; /* 从800px增加到1000px */
+  height: 700px; /* 增加高度以确保基本信息页面无需滚动 */
+  max-width: 95vw; /* 从90vw增加到95vw，在小屏幕上占据更多空间 */
+  max-height: 90vh; /* 增加最大高度比例 */
+}
+
+/* 修改选项卡样式，确保在宽度增加后仍然美观 */
+.quote-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding: 0 8px; /* 添加左右内边距 */
+}
+
+/* 找到 .quote-tabs 样式，并修改为以下内容 */
+.quote-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding: 0 8px; /* 添加左右内边距 */
+  justify-content: center; /* 添加这一行使标签居中 */
+}
+
+/* 确保选项卡在较小屏幕上可以滚动查看 */
+.quote-tabs {
+  padding-bottom: 2px; /* 添加一点底部填充，使滚动条不会紧贴边缘 */
+  flex-wrap: nowrap; /* 确保不换行 */
+}
+
+/* 修改选项卡滚动指示器，使其在居中布局下仍然有效 */
+.quote-tabs::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right, transparent, var(--background));
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+/* 添加左侧渐变指示器，在居中布局下提供更好的视觉效果 */
+.quote-tabs::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to left, transparent, var(--background));
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+/* 调整选项卡按钮的样式，使其更紧凑 */
+.quote-tab {
+  padding: 12px 14px; /* 从12px 16px减小到12px 14px */
+  background: none;
+  border: none;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0; /* 防止选项卡被压缩 */
+}
+
+/* 添加选项卡滚动指示器，提示用户可以滚动查看更多选项卡 */
+.quote-tabs::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right, transparent, var(--background));
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  #quote-panel {
+    width: 95vw;
+    height: 90vh;
+  }
+}
+
+/* 在文件末尾添加以下代码，禁用大型光标和焦点指示器 */
+
+/* 禁用大型光标和焦点指示器 */
+* {
+  outline: none !important; /* 禁用默认的焦点轮廓 */
+}
+
+/* 禁用文本输入框的默认光标样式 */
+input,
+textarea,
+[contenteditable] {
+  caret-color: auto; /* 使用浏览器默认的光标颜色 */
+  cursor: text; /* 确保文本区域使用文本光标 */
+}
+
+/* 确保按钮和可点击元素使用正确的光标 */
+button,
+a,
+.btn,
+[role="button"],
+.package-item,
+.clause-name,
+.custom-checkbox,
+.close-modal,
+.quote-tab {
+  cursor: pointer !important; /* 强制使用指针光标 */
+}
+
+/* 禁用任何可能的自定义光标 */
+body,
+html,
+div,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  cursor: default; /* 默认光标 */
+}
+
+/* 禁用任何可能的自定义焦点样式 */
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 保持原有的精緻密碼框樣式 */
+.password-container {
+  position: relative;
+  max-width: 320px;
+  width: 60%;
+  margin: 16px auto 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  color: #000;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  outline: none;
+  transition: all 0.2s ease;
+  padding-right: 44px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 
+              0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+/* 增強選中高亮效果 */
+.password-input:focus {
+  border-color: #0070f3; /* 使用Vercel藍色作為高亮色 */
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2), /* 外部藍色光暈 */
+              0 2px 8px rgba(0, 0, 0, 0.06);
+  background-color: #fff; /* 確保背景色保持純白 */
+  transform: translateY(-1px); /* 輕微上浮效果增強交互感 */
+}
+
+/* 保持原有的其他樣式 */
+.password-input::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+  font-weight: 400;
+}
+
+.password-container::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.password-container::after:hover {
+  background-color: #ebebeb;
+}
+
+.password-error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #ff4d4f;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.password-error.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 暗色模式適配 - 包含高亮效果 */
+.dark .password-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* 暗色模式下的選中高亮效果 */
+.dark .password-input:focus {
+  border-color: #10b981; /* 保持Vercel藍色作為高亮色 */
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25), /* 稍微增強暗色模式下的光暈可見度 */
+              0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.07); /* 輕微提亮背景 */
+  transform: translateY(-1px); /* 輕微上浮效果 */
+}
+
+.dark .password-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .password-container::after {
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+}
+
+.dark .password-container::after:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* v0.dev风格验证成功过渡动画样式 - 轻量级轮廓版本 */
+.auth-success-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.dark .auth-success-screen {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.auth-success-screen.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 320px;
+  padding: 24px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(10px);
+  transition: transform 0.4s ease;
+}
+
+.dark .auth-success-content {
+  background-color: #1a1a1a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.auth-success-screen.show .auth-success-content {
+  transform: translateY(0);
+}
+
+.auth-success-icon {
+  margin-bottom: 20px;
+  transition-delay: 0s;
+  position: relative;
+}
+
+.auth-success-message {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0s;
+  letter-spacing: -0.01em;
+}
+
+.auth-success-welcome {
+  font-size: 14px;
+  color: #666;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0s;
+  letter-spacing: -0.01em;
+}
+
+.dark .auth-success-message {
+  color: #fff;
+}
+
+.dark .auth-success-welcome {
+  color: #aaa;
+}
+
+/* 轻量级轮廓风格的绿色打勾 */
+.success-checkmark-container {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-checkmark-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #10b981; /* 轮廓线 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.auth-success-screen.show .success-checkmark-circle {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* 简洁的打勾图标 */
+.checkmark-icon {
+  width: 28px;
+  height: 28px;
+  color: #10b981;
+  stroke-width: 2.5;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: checkmark-draw 0.5s ease forwards 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes checkmark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 文字显示动画类 */
+.auth-success-message.show,
+.auth-success-welcome.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 添加过渡层样式 */
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+  z-index: 1999; /* 低于启动屏幕但高于主内容 */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.transition-overlay.active {
+  opacity: 1;
+}
+
+/* 修改主内容和侧边栏的过渡效果 */
+.main-content, .sidebar {
+  transition: opacity 0.6s ease;
+  opacity: 0;
+}
+
+/* 修改启动屏幕的过渡效果 */
+.splash-screen {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.splash-screen.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}

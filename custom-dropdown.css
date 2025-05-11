@@ -1,0 +1,149 @@
+/* 自定义下拉框样式 */
+.custom-dropdown-container {
+  position: relative;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  z-index: var(--z-dropdown);
+  width: 100%;
+}
+
+.custom-dropdown-selected {
+  height: 40px;
+  padding: 0 32px 0 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.custom-dropdown-selected:hover {
+  border-color: var(--ring);
+}
+
+.custom-dropdown-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.custom-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background-color: var(--background);
+  z-index: var(--z-dropdown);
+  transition: max-height 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2px;
+}
+
+/* 确保下拉选项在打开时高于表格 */
+.custom-dropdown-options.show {
+  max-height: 200px;
+  overflow-y: auto;
+  border-color: var(--border);
+  z-index: 1001 !important; /* 使用更高的z-index */
+  pointer-events: auto !important; /* 确保可以接收点击事件 */
+}
+
+.custom-dropdown-option {
+  padding: 8px 12px;
+  text-align: center;
+  transition: background-color 0.1s ease;
+  position: relative;
+  z-index: 1002 !important; /* 确保选项可点击且显示在表格上方 */
+  background-color: var(--background); /* 确保背景色完全不透明 */
+  pointer-events: auto !important; /* 确保可以接收点击事件 */
+}
+
+.custom-dropdown-option:hover {
+  background-color: var(--secondary);
+}
+
+.custom-dropdown-option.selected {
+  background-color: var(--secondary);
+  font-weight: 500;
+}
+
+/* 夜间模式样式 */
+.dark .custom-dropdown-selected {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: var(--border);
+}
+
+.dark .custom-dropdown-selected:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .custom-dropdown-arrow {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.dark .custom-dropdown-options {
+  background-color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .custom-dropdown-option {
+  background-color: #1a1a1a; /* 确保夜间模式下背景色完全不透明 */
+}
+
+.dark .custom-dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .custom-dropdown-option.selected {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 修复表单中下拉框的样式 */
+.form-field .custom-dropdown-container {
+  width: 100% !important;
+}
+
+/* 修改搜索区域下拉框的z-index和位置 */
+.search-section .custom-dropdown-container {
+  min-width: 140px;
+  z-index: 1000 !important; /* 使用非常高的z-index */
+  position: relative; /* 确保z-index生效 */
+}
+
+/* 确保搜索区域的下拉框显示在下方且优先级高于表格 */
+.search-section .custom-dropdown-options.show {
+  z-index: 1001 !important; /* 使用更高的z-index */
+  position: absolute;
+  top: 100%; /* 确保显示在下方 */
+  margin-top: 2px;
+}
+
+/* 特别处理搜索区域的下拉选项 */
+.search-section .custom-dropdown-option {
+  z-index: 1002 !important; /* 使用更高的z-index */
+}
+
+/* 确保搜索区域本身有正确的z-index */
+.search-section {
+  position: relative;
+  z-index: 999 !important; /* 确保搜索区域有较高的z-index */
+}
